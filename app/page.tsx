@@ -7,10 +7,21 @@ import Search from '@/components/Search'
 import { PageProps } from '@/.next/types/app/page'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 
+function getParamKey(query: object) {
+  let key = ''
+  if (typeof query === 'object') {
+    key = Object.keys(query)[0]
+  }
+
+  return key
+}
+
 async function getUsers(searchParams: Params) {
-  const query = searchParams?.username
+  const searchKey = getParamKey(searchParams)
+
+  const query = searchParams?.[searchKey]
   const currentPage = Number(searchParams?.page) || 1
-  const url = `https://jsonplaceholder.typicode.com/users${query ? `?username_like=${query}` : ''}`
+  const url = `https://jsonplaceholder.typicode.com/users${query ? `?${searchKey}_like=${query}` : ''}`
   const response = await fetch(url)
 
   if (!response.ok) {

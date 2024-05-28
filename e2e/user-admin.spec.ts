@@ -26,3 +26,14 @@ test('Admin users landing page shows a table with user data', async ({ page }) =
 
   await expect(page).toHaveTitle(/Admin users/)
 })
+
+test('when admin change user input it updates the url with the correct input value', async ({ page }) => {
+  await page.goto('/')
+
+  expect(page).toHaveURL('/')
+  await expect(page.getByRole('heading', { level: 1, name: /Users/i })).toBeVisible()
+  await page.getByRole('textbox').fill('Les')
+  
+  await expect(page).toHaveURL('/?username=Les')
+})
+

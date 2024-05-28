@@ -48,8 +48,11 @@ export default async function Home({ searchParams }: PageProps) {
   return (
     <main className="flex min-h-screen flex-col items-center p-24" id="ide">
       <h1 className="text-2xl bold font-bold mb-5">Users</h1>
-      <Search />
-      <UserTable users={users} />
+      <div className="mb-6">
+        <Search />
+      </div>
+      {users.length ? <UserTable users={users} /> : 'There is no results'}
+      
     </main>
   )
 }

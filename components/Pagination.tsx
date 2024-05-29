@@ -3,9 +3,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export type Props = {
   totalPage: number
+  limit: number
 }
 
-export default function Pagination({ totalPage }: Props) {
+export default function Pagination({ totalPage, limit }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter()
@@ -17,7 +18,7 @@ export default function Pagination({ totalPage }: Props) {
     replace(`${pathname}?${params.toString()}`)
   };
 
-  const nextStartPage = (Number(searchParams.get('page')) - 1) * 5 + 5
+  const nextStartPage = (Number(searchParams.get('page')) - 1) * limit + limit
 
   return (
     <div>

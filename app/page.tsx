@@ -21,8 +21,6 @@ const PAGE_LIMIT = 5
 
 async function getUsers(searchParams: Params) {
   const searchKey = getParamKey(searchParams)
-  console.log('🚀 ~ getUsers ~ searchParams:', searchParams);
-
   const filter = searchParams.username || searchParams.name || searchParams.email ? searchParams[searchKey] : ''
   const currentPage = Number(searchParams.page) || 1
   const offset = (currentPage - 1) * 5
@@ -67,7 +65,7 @@ export default async function Home({ searchParams }: PageProps) {
         {users.length ? (
           <>
             <UserTable users={users} />
-            <Pagination totalPage={totalPage} />
+            <Pagination totalPage={totalPage} limit={PAGE_LIMIT} />
           </>
         ) : 'There is no results'}
       </div>

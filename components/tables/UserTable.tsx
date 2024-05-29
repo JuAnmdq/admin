@@ -1,5 +1,5 @@
 import { User } from '@/types/User'
-import Table from '../Table'
+import Table from './Table'
 
 type Props = {
   users: User[]

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test('Admin users landing page shows a table with user data', async ({ page }) => {
+test('Admin users page shows the expected layout and meta content', async ({ page }) => {
+  // @TECHNICAL-DEBT: review how to mockup playwright on server side to avoid test real backend data that can change
   // await page.route('https://jsonplaceholder.typicode.com/users', async route => {
   //   // await page.route('*/**/jsonplaceholder.typicode.com/users', async route => {
   //   const json = [
@@ -17,13 +18,6 @@ test('Admin users landing page shows a table with user data', async ({ page }) =
   await page.goto('/')
 
   await expect(page.getByRole('heading', { level: 1, name: /Users/i })).toBeVisible()
-  // console.log('🚀 ~ test ~ page:', await page.locator('body').innerHTML())
-
-  // @TECHNICAL-DEBT: review how to mockup playwright on server side to avoid this real backend data that can change
-  // await expect(page.getByText(/Leanne Graham/i)).toBeVisible()
-  // await expect(page.getByText(/Sincere@april.biz/i)).toBeVisible()
-  // await expect(page.getByText(/Ervin Howell/i)).toBeVisible()
-
   await expect(page).toHaveTitle(/Admin users/)
 })
 

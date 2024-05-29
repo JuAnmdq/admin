@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-
-import UserTable from '@/components/UserTable'
-import { User } from '@/types/User'
-import Search from '@/components/Search'
-import { PageProps } from '@/.next/types/app/page'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+import { PageProps } from '@/.next/types/app/page'
+
+import { User } from '@/types/User'
+import UserTable from '@/components/tables/UserTable'
+import Search from '@/components/Search'
 import Pagination from '@/components/Pagination'
 
 function getParamKey(query: object) {
@@ -25,7 +25,6 @@ async function getUsers(searchParams: Params) {
   const query = searchParams?.[searchKey] && !searchParams.page
   const currentPage = Number(searchParams?.page) || 1
   const startPage = (currentPage - 1) * 5
-  console.log('🚀 ~ getUsers ~ currentPage:', currentPage);
   const url = `https://jsonplaceholder.typicode.com/users?_start=${startPage}&_limit=${PAGE_LIMIT}${query ? `&${searchKey}_like=${query}` : ''}`
   const response = await fetch(url)
 
@@ -56,7 +55,6 @@ export const metadata: Metadata = {
 
 export default async function Home({ searchParams }: PageProps) {
   const { users, totalPage } = await getUsers(searchParams)
-  console.log('🚀 ~ Home ~ users:', users);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24" id="ide">

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
-import { cleanup, render, screen } from '@testing-library/react'
-import Table, { Props } from '@/components/Table'
+import { render, screen } from '@testing-library/react'
+import Table, { Props } from '@/components/tables/Table'
 
 type MockData = {
   title: string

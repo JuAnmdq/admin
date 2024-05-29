@@ -57,15 +57,19 @@ export default function Search() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex w-full justify-between">
       <input
         type="text"
         placeholder="Search user"
-        className="pl-1"
+        className="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full mr-3 p-2.5"
         onChange={useDebouncedCallback(handleSearch, 500)}
         defaultValue={searchParams.get('username')?.toString()}
       />
-      <select defaultValue={searchKey} onChange={handleSelect}>
+      <select
+        defaultValue={searchKey}
+        onChange={handleSelect}
+        className="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ml-3 p-2.5"
+      >
         <option value="username">By username</option>
         <option value="email">By email</option>
         <option value="name">By name</option>

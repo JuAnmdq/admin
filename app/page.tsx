@@ -21,11 +21,12 @@ const PAGE_LIMIT = 5
 
 async function getUsers(searchParams: Params) {
   const searchKey = getParamKey(searchParams)
+  console.log('🚀 ~ getUsers ~ searchParams:', searchParams);
 
-  const query = searchParams?.[searchKey] && !searchParams.page
-  const currentPage = Number(searchParams?.page) || 1
-  const startPage = (currentPage - 1) * 5
-  const url = `https://jsonplaceholder.typicode.com/users?_start=${startPage}&_limit=${PAGE_LIMIT}${query ? `&${searchKey}_like=${query}` : ''}`
+  const filter = searchParams.username || searchParams.name || searchParams.email ? searchParams[searchKey] : ''
+  const currentPage = Number(searchParams.page) || 1
+  const offset = (currentPage - 1) * 5
+  const url = `https://jsonplaceholder.typicode.com/users?_start=${offset}&_limit=${PAGE_LIMIT}${filter ? `&${searchKey}_like=${filter}` : ''}`
   const response = await fetch(url)
 
   if (!response.ok) {

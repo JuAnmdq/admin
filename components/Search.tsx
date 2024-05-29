@@ -23,7 +23,8 @@ export default function Search() {
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const term = e.target.value
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams)
+    params.set('page', '1')
 
     if (term) {
       if (urlKey && searchKey != urlKey) {

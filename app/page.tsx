@@ -60,15 +60,17 @@ export default async function Home({ searchParams }: PageProps) {
   return (
     <main className="flex min-h-screen flex-col items-center p-24" id="ide">
       <h1 className="text-2xl font-semibold mb-5">Users</h1>
-      <div className="mb-6">
-        <Search />
+      <div className="w-3/6">
+        <div className="mb-6">
+          <Search />
+        </div>
+        {users.length ? (
+          <>
+            <UserTable users={users} />
+            <Pagination totalPage={totalPage} />
+          </>
+        ) : 'There is no results'}
       </div>
-      {users.length ? (
-        <>
-          <UserTable users={users} />
-          <Pagination totalPage={totalPage} />
-        </>
-       ) : 'There is no results'}
       
     </main>
   )

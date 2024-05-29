@@ -25,3 +25,9 @@ body {
     text-wrap: balance;
   }
 }
+
+.search-input {
+  background: url(/search.svg) no-repeat scroll 8px 15px;
+  background-size: 16px;
+  padding-left: 30px;
+}

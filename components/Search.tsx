@@ -61,7 +61,7 @@ export default function Search() {
       <input
         type="text"
         placeholder="Search user"
-        className="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full mr-3 p-2.5"
+        className="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full mr-3 p-2.5 search-input"
         onChange={useDebouncedCallback(handleSearch, 500)}
         defaultValue={searchParams.get('username')?.toString()}
       />

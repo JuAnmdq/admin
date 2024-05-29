@@ -6,6 +6,7 @@ import { User } from '@/types/User'
 import Search from '@/components/Search'
 import { PageProps } from '@/.next/types/app/page'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+import Pagination from '@/components/Pagination'
 
 function getParamKey(query: object) {
   let key = ''
@@ -16,12 +17,16 @@ function getParamKey(query: object) {
   return key
 }
 
+const PAGE_LIMIT = 5
+
 async function getUsers(searchParams: Params) {
   const searchKey = getParamKey(searchParams)
 
-  const query = searchParams?.[searchKey]
+  const query = searchParams?.[searchKey] && !searchParams.page
   const currentPage = Number(searchParams?.page) || 1
-  const url = `https://jsonplaceholder.typicode.com/users${query ? `?${searchKey}_like=${query}` : ''}`
+  const startPage = (currentPage - 1) * 5
+  console.log('🚀 ~ getUsers ~ currentPage:', currentPage);
+  const url = `https://jsonplaceholder.typicode.com/users?_start=${startPage}&_limit=${PAGE_LIMIT}${query ? `&${searchKey}_like=${query}` : ''}`
   const response = await fetch(url)
 
   if (!response.ok) {
@@ -29,13 +34,20 @@ async function getUsers(searchParams: Params) {
     throw new Error('Failed to fetch data')
   }
 
-  const users: Promise<User[]> = response.json()
+  const totalPage = Number(response.headers.get('x-total-count'))
+
+  const data: Promise<{ users: User[], totalPage: number }> = response.json().then(response => {
+    return {
+      users: response,
+      totalPage
+    }
+  })
   
-  if (!users) {
+  if (!data) {
     notFound()
   }
   
-  return users
+  return data
 }
 
 export const metadata: Metadata = {
@@ -43,7 +55,8 @@ export const metadata: Metadata = {
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const users = await getUsers(searchParams)
+  const { users, totalPage } = await getUsers(searchParams)
+  console.log('🚀 ~ Home ~ users:', users);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24" id="ide">
@@ -51,7 +64,12 @@ export default async function Home({ searchParams }: PageProps) {
       <div className="mb-6">
         <Search />
       </div>
-      {users.length ? <UserTable users={users} /> : 'There is no results'}
+      {users.length ? (
+        <>
+          <UserTable users={users} />
+          <Pagination totalPage={totalPage} />
+        </>
+       ) : 'There is no results'}
       
     </main>
   )
